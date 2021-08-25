@@ -4,10 +4,10 @@
 ## Technologies used
 
 ```
-**Frontend** : Thymeleaf
-**Backend**  : Spring Boot 
-**Database** : PostgreSQL
-**Programming Language** : Java
+Frontend              : Thymeleaf
+Backend               : Spring Boot 
+Database              : PostgreSQL
+Programming Language  : Java
 ```
 
 
