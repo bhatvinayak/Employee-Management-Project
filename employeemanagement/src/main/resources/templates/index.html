@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+	<title>Employee Management System</title>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+	
+	table, th{
+		text-align: center;
+	}
+	h1 {
+		padding:30px 0px;
+	}
+	.footer {
+	  position: fixed;
+	  left: 0;
+	  bottom: 0;
+	  width: 100%;
+	  background-color: #222;
+	  border-color: #080808;
+	  height: 50px;
+	}
+	.navbar{
+		border-radius:0px !important;
+	}
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="#">Employee Management System</a>
+		    </div>
+		    <ul class="nav navbar-nav">
+		      <li class="active"><a href="#">Employees</a></li>
+		      <li ><a th:href="@{department}">Department</a></li>
+		    </ul>
+		 </div>
+	</nav>
+	<h1 class="text-center">Employee List</h1>
+	<div class="container">
+		
+		<div class="row">
+			<div class=" col-md-8 table-responsive">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th ><a th:href="@{sort-by-employee-name}">Name</a></th>
+							<th><a th:href="@{sort-by-employee-age}">Age</a></th>
+							<th>Department</th>
+							<th colspan="2">Actions</th>
+						</tr>
+						<tr th:each="employee : ${listEmployees}" id="tr">
+							<td th:text="${employee.name}"></td>
+							<td th:text="${employee.age}"></td>	
+							<td th:text="${employee.department.name}"></td>	
+							<td> <a th:href="@{/showFormUpdate/{id}(id=${employee.id})}" class="btn btn-primary">Update</a> </td>
+							<td> <a th:href="@{/deleteEmployee/{id}(id=${employee.id})}" class="btn btn-danger">Delete</a> </td>	
+						</tr>
+					</thead>
+				</table>
+			</div>
+			<div class=" col-md-4">
+				<input class="form-control mb-4 col-4" id="txtSearch" type="text" name="keyword" placeholder="Search" onkeyup="myFunction()"><br>
+				<a class="btn btn-info " th:href = "@{/addNewEmployee}">Add a new Employee</a><br><br>
+			</div>
+		</div>
+	</div>
+	<footer class="footer">
+	</footer>
+	<script>
+	function myFunction() 
+	{
+			
+		let input = document.getElementById("txtSearch");
+		let keyword = input.value.toUpperCase();
+		let tr = document.getElementsByTagName('tr');
+		
+		for (i = 1; i < tr.length; i++) {
+	        let td = tr[i].getElementsByTagName("td");
+	        let displyCondition = "";
+	        for (let j = 0; j < td.length - 4; j++){
+	        	
+	        	let txtValue = td[j].textContent || td[j].innerText;
+	        	let ageValue = td[j+1].textContent || td[j+1].innerText;
+	        	let depValue = td[j+2].textContent || td[j+2].innerText;
+	        	let b1, b2, b3;
+	        	if (txtValue.toUpperCase().indexOf(keyword) > -1) {
+	        		b1 = true;
+	            } else {
+	            	b1 = false;
+	            }
+	        	if (ageValue.indexOf(keyword) > -1) {
+	        		b2 = true;
+	            } else {
+	            	b2 = false;
+	            }
+	        	if (depValue.toUpperCase().indexOf(keyword) > -1) {
+	        		b3 = true;
+	            } else {
+	            	b3 = false;
+	            }
+	        	if (b1 || b2 || b3) displyCondition = "";
+	        	else displyCondition = "none";
+	        }
+	        tr[i].style.display = displyCondition;
+	    }
+	}
+	</script>
+</body>
+</html>
